@@ -1,0 +1,14 @@
+---
+- hosts: projeto-mack
+  tasks:
+  - name: Setup maquina
+    ansible.builtin.import_role:
+      name: setup_linux
+      tasks_from: setup_linux.yaml
+    become: yes
+
+  - name: Instalação docker e docker compose
+    ansible.builtin.import_role:
+      name: docker_setup
+      tasks_from: docker_install.yaml
+    become: yes
