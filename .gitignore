@@ -1,0 +1,16 @@
+### Terraform ###
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+.terraform
+*.hcl
+
+### keys ###
+keys
+*.pem
+
+### volume db ###
+postgres-data
