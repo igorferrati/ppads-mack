@@ -1,2 +1,2 @@
 [projeto-mack]
-<ip> ansible_user=ansible ansible_ssh_private_key_file="/home/igor/projects/ppads-mack"
+34.122.201.188 ansible_user=projeto ansible_ssh_private_key_file="/home/igor/projects/ppads-mack/infra/key/id_rsa"

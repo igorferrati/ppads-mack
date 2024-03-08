@@ -25,4 +25,4 @@
 - name: Clonando repositório do projeto
   command: git clone https://github.com/igorferrati/ppads-mack.git
   args:
-    chdir: /
+    chdir: /home/projeto
