@@ -9,6 +9,6 @@
 
   - name: Instalação docker e docker compose
     ansible.builtin.import_role:
-      name: docker_setup
-      tasks_from: docker_install.yaml
+      name: setup_docker
+      tasks_from: setup_docker.yaml
     become: yes

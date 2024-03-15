@@ -38,6 +38,6 @@
 
 - name: Add usuário da instancia no grupo docker
   ansible.builtin.user:
-    name: ansible
+    name: projeto
     groups: docker
     append: true

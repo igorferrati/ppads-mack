@@ -1,6 +1,6 @@
 variable "gcp_project" {
   type = string
-  default = "clusterk8s-413514"
+  default = "projeto-mack-416601"
 }
 
 variable "gcp_region" {

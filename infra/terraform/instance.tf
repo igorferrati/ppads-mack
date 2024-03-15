@@ -1,5 +1,5 @@
 resource "google_compute_address" "static_external" {
-  name  = "ip-externo-%s"
+  name  = "mack-public-ip"
   address_type = "EXTERNAL"
 }
 
