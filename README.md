@@ -9,9 +9,5 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 ---
 
 ### Pré-Requesitos 
-
 - Node v18.16.0
-- Npm v
-- sequelize@6.32.1 
-- sequelize-cli@6.6.1
-
+- Npm v10.2.3
