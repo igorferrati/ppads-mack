@@ -1,13 +1,11 @@
-const database = require('../models'); //index.js gerencia todos métodos dentro de models
+const Controller = require('./Controller.js');
+const RegistroServices = require('../services/RegistroServices.js');
 
-class RegistroController {
-    static async getAll (req, res) {
-        try {
-            const listaDeRegistros = await database.Registro.findAll();
-            return res.status(200).json(listaDeRegistros)
-        } catch (erro) {
-            //erro
-        }
+const registroServices = new RegistroServices();
+
+class RegistroController extends Controller {
+    constructor() {
+        super(registroServices);
     }
 }
 

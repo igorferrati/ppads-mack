@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const RegistroController = require('../controllers/RegistroController.js')
+const RegistroController = require('../controllers/RegistroController.js');
+
+const registroController = new RegistroController();
 
 const router = Router();
 
-router.get('/registros', RegistroController.getAll);
+router.get('/registros', (req, res) => registroController.getAll(req, res));
 
 module.exports = router;
