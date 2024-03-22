@@ -1,11 +1,11 @@
 const Services= require('./Services.js')
 
 //herda de Services to seus métodos
-class RegistroServices extends Services {
+class PessoaServices extends Services {
     constructor() {
         //nomeModelo
-        super('Registro');
+        super('Pessoa');
     }
 }
 
-module.exports = RegistroServices;
+module.exports = PessoaServices;

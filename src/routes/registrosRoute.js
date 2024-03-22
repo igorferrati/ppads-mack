@@ -5,6 +5,6 @@ const registroController = new RegistroController();
 
 const router = Router();
 
-router.get('/registros', (req, res) => registroController.getAll(req, res));
+router.get('/pessoas', (req, res) => registroController.getAll(req, res));
 
 module.exports = router;
