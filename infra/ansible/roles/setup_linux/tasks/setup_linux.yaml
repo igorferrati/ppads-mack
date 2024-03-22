@@ -1,0 +1,28 @@
+- name: Atualização de pacotes
+  apt:
+    update_cache: yes
+
+- name: Instalação de dependências
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - git
+
+- name: Instalação Node, npm e angular-cli
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nodejs
+    - npm
+    # - angular-cli
+
+- name: Clonando repositório do projeto
+  command: git clone https://github.com/igorferrati/ppads-mack.git
+  args:
+    chdir: /home/projeto
