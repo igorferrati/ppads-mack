@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 
+	"github.com/igorferrati/ppads-mack/models"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -19,5 +20,5 @@ func ConectaDB() {
 	if err != nil {
 		log.Panic("Erro ao conectar com banco de dados")
 	}
-	// DB.AutoMigrate(&models.Aluno{})
+	DB.AutoMigrate(&models.Aluno{})
 }
