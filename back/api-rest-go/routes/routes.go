@@ -35,5 +35,5 @@ func HandleRequests() {
 	//     // presencas.GET("/:id", controllers.GetPresencaByID)
 	// }
 
-	r.Run()
+	r.Run(":8081")
 }
