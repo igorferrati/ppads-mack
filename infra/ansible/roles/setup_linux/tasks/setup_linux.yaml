@@ -20,7 +20,27 @@
   loop:
     - nodejs
     - npm
-    # - angular-cli
+
+- name: Download do arquivo compactado do Go
+  get_url:
+    url: "https://go.dev/dl/go1.22.1.linux-amd64.tar.gz"
+    dest: "/tmp/go1.22.1.linux-amd64.tar.gz"
+
+- name: Extrair o arquivo compactado do Go para /usr/local
+  unarchive:
+    src: "/tmp/go1.22.1.linux-amd64.tar.gz"
+    dest: "/usr/local"
+    remote_src: yes
+
+- name: Adicionar /usr/local/go/bin ao PATH
+  lineinfile:
+    dest: "{{ item }}"
+    line: "export PATH=$PATH:/usr/local/go/bin"
+    insertafter: EOF
+  loop:
+    - /etc/profile
+    - /root/.profile
+    - /home/{{ ansible_user }}/.profile
 
 - name: Clonando repositório do projeto
   command: git clone https://github.com/igorferrati/ppads-mack.git
