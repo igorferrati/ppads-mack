@@ -1,12 +1,17 @@
 package routes
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/igorferrati/ppads-mack/controllers"
 )
 
 func HandleRequests() {
 	r := gin.Default()
+
+	// Configurar CORS
+	corsMiddleware := cors.Default()
+	r.Use(corsMiddleware)
 
 	alunos := r.Group("/alunos")
 	{
