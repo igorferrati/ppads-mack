@@ -40,5 +40,5 @@ func HandleRequests() {
 	//     // presencas.GET("/:id", controllers.GetPresencaByID)
 	// }
 
-	r.RunTLS(":88081", "/home/projeto/cert.pem", "/home/projeto/key.pem")
+	r.RunTLS(":8081", "/home/projeto/cert.pem", "/home/projeto/key.pem")
 }
