@@ -1,0 +1,36 @@
+<div
+  class="container"
+  style="
+    background-image: url('../../../assets/images/escola.jpg');
+    background-size: cover;
+  "
+>
+  <form [formGroup]="loginForm" (keyup.enter)="login()" class="login-container">
+    <h1 style="text-align: center;">Login</h1>
+    <po-login
+      formControlName="username"
+      name="userLogin"
+      p-label="Usuário"
+      [p-maxlength]="20"
+      p-clean
+      p-required
+    ></po-login>
+
+    <po-password
+      formControlName="password"
+      name="userPassword"
+      p-label="Senha"
+      p-required
+      p-clean
+    ></po-password>
+
+    <div class="centralize">
+      <po-button
+        p-label="Entrar"
+        p-kind="primary"
+        class="po-md-5 po-mt-2"
+        (p-click)="login()"
+      ></po-button>
+    </div>
+  </form>
+</div>

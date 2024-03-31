@@ -1,0 +1,91 @@
+<po-page-edit
+  p-title="Perfil"
+  [p-breadcrumb]="breadcrumb"
+  (p-cancel)="cancel()"
+  [p-literals]="customLiterals"
+>
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    "
+  >
+    <img
+      src="../../../assets/images/profile.jpg"
+      alt="Perfil"
+      width="200"
+      height="200"
+      style="border-radius: 50%"
+    />
+  </div>
+  <form #formEditUser="ngForm">
+    <div class="po-row">
+      <po-number
+        class="po-md-4"
+        name="userId"
+        [(ngModel)]="userId"
+        p-clean
+        p-label="ID do Usuário"
+        p-required
+        p-disabled
+      >
+      </po-number>
+
+      <po-email
+        class="po-md-4"
+        name="email"
+        [(ngModel)]="email"
+        p-clean
+        p-label="Email"
+        p-required
+        p-disabled
+      >
+      </po-email>
+
+      <po-input
+        class="po-md-4"
+        name="name"
+        [(ngModel)]="name"
+        p-clean
+        p-label="Nome"
+        p-required
+        p-disabled
+      >
+      </po-input>
+    </div>
+
+    <div class="po-row">
+
+      <po-datepicker
+        class="po-md-4"
+        name="birthDate"
+        [(ngModel)]="birthDate"
+        p-clean
+        p-label="Data de Nascimento"
+        p-disabled
+      >
+      </po-datepicker>
+
+      <po-input
+        class="po-md-4"
+        name="genre"
+        [(ngModel)]="genre"
+        p-clean
+        p-label="Gênero"
+        p-disabled
+      >
+      </po-input>
+      <po-input
+      class="po-md-4"
+      name="nationality"
+      [(ngModel)]="nationality"
+      p-clean
+      p-label="Nacionalidade"
+      p-disabled
+    >
+    </po-input>
+    </div>
+  </form>
+</po-page-edit>

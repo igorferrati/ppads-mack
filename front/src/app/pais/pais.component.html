@@ -1,0 +1,39 @@
+<po-page-default p-title="Responsáveis">
+  <div class="po-row">
+    <po-select name="ano" p-label="Ano" class="po-md-3" [p-options]="anos">
+    </po-select>
+    <po-select
+      name="turma"
+      p-label="Turma"
+      class="po-md-3"
+      [p-options]="turmas"
+    >
+    </po-select>
+    <po-select
+      name="disciplina"
+      p-label="Disciplina"
+      class="po-md-3"
+      [p-options]="disciplinas"
+    >
+    </po-select>
+    <po-select
+      name="aluno"
+      p-label="Aluno"
+      [p-options]="alunos"
+      class="po-md-3"
+    >
+    </po-select>
+  </div>
+  <po-table
+    [p-hide-columns-manager]="true"
+    p-container="shadow"
+    [p-loading]="isLoading"
+    [p-loading-show-more]="isLoading"
+    [p-show-more-disabled]="showMoreDisabled"
+    [p-columns]="columnsEpisodes"
+    [p-items]="listEpisodes"
+    [p-literals]="customLiterals"
+    [p-sort]="true"
+  >
+  </po-table>
+</po-page-default>

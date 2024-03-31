@@ -1,0 +1,82 @@
+<po-page-default p-title="Alunos" [p-actions]="pageActions">
+  <div class="po-row">
+    <po-select name="ano" p-label="Ano" class="po-md-3" [p-options]="anos">
+    </po-select>
+    <po-select
+      name="turma"
+      p-label="Turma"
+      class="po-md-3"
+      [p-options]="turmas"
+    >
+    </po-select>
+    <po-select
+      name="disciplina"
+      p-label="Disciplina"
+      class="po-md-3"
+      [p-options]="disciplinas"
+    >
+    </po-select>
+    <po-select
+      name="aluno"
+      p-label="Aluno"
+      [p-options]="alunos"
+      class="po-md-3"
+    >
+    </po-select>
+  </div>
+  <po-table
+    [p-hide-columns-manager]="true"
+    p-container="shadow"
+    [p-loading]="isLoading"
+    [p-loading-show-more]="isLoading"
+    [p-show-more-disabled]="showMoreDisabled"
+    [p-columns]="columnsAlunos"
+    [p-items]="listAlunos"
+    [p-literals]="customLiterals"
+    [p-sort]="true"
+  >
+  </po-table>
+</po-page-default>
+
+<po-modal #modal p-title="Adicionar novo aluno">
+  <form [formGroup]="formAdicionarAluno">
+    <div class="po-row">
+      <po-input
+        class="po-md-12"
+        formControlName="nome_aluno"
+        p-clean
+        p-icon="po-icon-user"
+        p-label="Nome do aluno"
+      >
+      </po-input>
+    </div>
+    <div class="po-row">
+      <po-input
+        class="po-md-12"
+        formControlName="turma"
+        p-clean
+        p-icon="po-icon po-icon-grid"
+        p-label="Turma"
+      >
+      </po-input>
+    </div>
+
+    <div class="po-row">
+      <po-input
+        class="po-md-12"
+        formControlName="responsavel"
+        p-clean
+        p-icon="po-icon po-icon-waiter"
+        p-label="Responsável"
+      >
+      </po-input>
+    </div>
+  </form>
+
+  <po-modal-footer [p-disabled-align]="false">
+    <po-button p-danger="true" p-label="Fechar" (p-click)="fechar()">
+    </po-button>
+    <po-button p-kind="primary" p-label="Confirmar" (p-click)="confirmar()">
+    </po-button>
+  </po-modal-footer>
+</po-modal>

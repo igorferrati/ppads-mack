@@ -1,0 +1,16 @@
+<div class="po-wrapper">
+  <ng-container *ngIf="shouldShowMenuAndToolbar()">
+    <po-menu [p-filter]="true" [p-menus]="menus">
+      <ng-container *p-menu-header-template>
+        <div class="po-p-2 po-font-title">
+          <p>Bem vindo,</p>
+          <!-- <p>
+            <b>Professor</b>
+          </p> -->
+        </div>
+      </ng-container>
+    </po-menu>
+    <app-toolbar title="Escola Octogono"></app-toolbar>
+  </ng-container>
+  <router-outlet></router-outlet>
+</div>
