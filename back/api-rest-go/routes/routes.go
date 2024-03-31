@@ -1,12 +1,17 @@
 package routes
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/igorferrati/ppads-mack/controllers"
 )
 
 func HandleRequests() {
 	r := gin.Default()
+
+	// Configurar CORS
+	corsMiddleware := cors.Default()
+	r.Use(corsMiddleware)
 
 	alunos := r.Group("/alunos")
 	{
@@ -35,5 +40,9 @@ func HandleRequests() {
 	//     // presencas.GET("/:id", controllers.GetPresencaByID)
 	// }
 
-	r.Run(":8081")
+	certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"
+	keyFile := "/etc/letsencrypt/live/api-escola.ddns.net/privkey.pem"
+
+	// Inicie o servidor Gin com HTTPS
+	r.RunTLS(":8081", certFile, keyFile)
 }
