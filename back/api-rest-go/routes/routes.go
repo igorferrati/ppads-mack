@@ -40,8 +40,8 @@ func HandleRequests() {
 	//     // presencas.GET("/:id", controllers.GetPresencaByID)
 	// }
 
-	certFile := "/home/projeto/cert.pem"
-	keyFile := "/home/projeto/key.pem"
+	certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"
+	keyFile := "/etc/letsencrypt/live/api-escola.ddns.net/privkey.pem"
 
 	// Inicie o servidor Gin com HTTPS
 	r.RunTLS(":8081", certFile, keyFile)
