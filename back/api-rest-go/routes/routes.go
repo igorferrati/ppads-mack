@@ -41,7 +41,7 @@ func HandleRequests() {
 	// }
 
 	certFile := "/home/projeto/cert.pem"
-	keyFile := "/home/projeto/csr.pem"
+	keyFile := "/home/projeto/key.pem"
 
 	// Inicie o servidor Gin com HTTPS
 	r.RunTLS(":8081", certFile, keyFile)
