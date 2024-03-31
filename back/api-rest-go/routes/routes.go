@@ -40,5 +40,9 @@ func HandleRequests() {
 	//     // presencas.GET("/:id", controllers.GetPresencaByID)
 	// }
 
-	r.Run(":8081")
+	certFile := "/home/projeto/cert.pem"
+	keyFile := "/home/projeto/csr.pem"
+
+	// Inicie o servidor Gin com HTTPS
+	r.RunTLS(":443", certFile, keyFile)
 }
