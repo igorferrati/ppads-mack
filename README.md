@@ -8,6 +8,3 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 
 ---
 
-### Pré-Requesitos 
-- Node v18.16.0
-- Npm v10.2.3
