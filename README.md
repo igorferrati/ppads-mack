@@ -8,3 +8,113 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 
 ---
 
+### Dependências:
+### Para a infra:
+
+- Docker
+[Documentação docker:](https://docs.docker.com/engine/install/)
+
+- Docker-compose
+[Documentação docker-compose:](https://docs.docker.com/compose/install/)
+
+### Para o Frontend:
+
+- Node JS - v20 ou superior
+- Npm
+[Documentação node:](https://nodejs.org/en/download)
+
+- Angular v16 ou superior
+[Documentação angular:](https://angular.io/guide/setup-local)
+
+### Para o Backend
+
+- Golang vgo 1.21.4 ou superior
+[Documentação golang:](https://go.dev/doc/install)
+
+---
+
+## Executando APP
+
+1. Faça o download do repositório git
+
+```
+git clone https://github.com/igorferrati/ppads-mack.git
+```
+
+2. entre na pasta ```infra/compose```, no arquivo ```docker-compose.yaml``` tem as informações da criação do banco de dados, tais como: ```user```, ```password``` e porta das quais serão expostas, e uma interface gráfica (pagadmin) para rodar as querys de criação da estrutura dos bancos.
+
+3. Usaremos o comando para subir o banco de dados e também a interfaceweb, o ```-d``` é para o modo detach do qual executa os e libera o terminal para o usuário.
+
+```
+docker-compose up -d
+```
+
+4. Faça login no ```pgadmin``` em localhost:54321 e faça login no banco criado apontando para ```postgres:5432```, observer que ```postgres``` é o nome do container criado e ```5432``` é porta do qual ele está exposto. O ```pgadmin``` pedira usuário e senha também para realizar o login no banco, forneça as credenciais e estabeleça o login.
+
+5. Execute as querys para construir a estrutura dos bancos:
+
+```
+CREATE TABLE alunos (
+    id SERIAL PRIMARY KEY,
+    nome_aluno VARCHAR(255),
+    turma VARCHAR(10),
+    responsavel VARCHAR(255)
+);
+```
+
+```
+CREATE TABLE professores (
+    id SERIAL PRIMARY KEY,
+    nome_professor VARCHAR(255),
+    materia VARCHAR(50)
+);
+```
+
+```
+CREATE TABLE materias (
+    id SERIAL PRIMARY KEY,
+    nome_materia VARCHAR(50)
+);
+```
+
+```
+CREATE TABLE presencas (
+    id SERIAL PRIMARY KEY,
+    aluno_id INT REFERENCES alunos(id),
+    materia_id INT REFERENCES materias(id),
+    professor_id INT REFERENCES professores(id),
+    data DATE,
+    presente BOOLEAN
+);
+```
+
+6. Após criada a estrutura de tabelas do banco, podemos inserir usuários ficticios.
+
+7. Entre na pasta do backend em ```back/api-rest-go``` e execute os seguintes comando para iniciar o servidor go:
+
+- Baixando todas dependências gerenciadas em ```go.mod``` e ```go.sum```.
+
+```
+go mod tidy
+```
+
+- Subindo servidor:
+```
+go run main.go
+```
+
+8. Navegue até a pasta ```front``` e execute os seguintes comandos:
+
+- Para instalar todas dependÇencias do ```package.json```:
+
+```
+npm install
+```
+
+- Subindo servidor web:
+
+```
+ng serve
+```
+
+9. Pronto você pode acessar o projeto agora localmente em:
