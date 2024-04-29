@@ -16,10 +16,8 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 - Docker-compose
 [Documentação docker-compose:](https://docs.docker.com/compose/install/)
 
-- Node JS - v20 ou superior
-- Npm
-
-[Documentação node:](https://nodejs.org/en/download)
+- Node JS - v20 ou superior [Documentação node:](https://nodejs.org/en/download)
+- Npm [Documentação node:](https://nodejs.org/en/download)
 
 - Angular v16 ou superior
 [Documentação angular:](https://angular.io/guide/setup-local)
