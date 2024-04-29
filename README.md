@@ -9,15 +9,12 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 ---
 
 ### Dependências:
-### Para a infra:
 
 - Docker
 [Documentação docker:](https://docs.docker.com/engine/install/)
 
 - Docker-compose
 [Documentação docker-compose:](https://docs.docker.com/compose/install/)
-
-### Para o Frontend:
 
 - Node JS - v20 ou superior
 - Npm
@@ -26,12 +23,8 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 - Angular v16 ou superior
 [Documentação angular:](https://angular.io/guide/setup-local)
 
-### Para o Backend
-
 - Golang vgo 1.21.4 ou superior
 [Documentação golang:](https://go.dev/doc/install)
-
----
 
 ## Executando APP
 
@@ -41,15 +34,39 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 git clone https://github.com/igorferrati/ppads-mack.git
 ```
 
-2. entre na pasta ```infra/compose```, no arquivo ```docker-compose.yaml``` tem as informações da criação do banco de dados, tais como: ```user```, ```password``` e porta das quais serão expostas, e uma interface gráfica (pagadmin) para rodar as querys de criação da estrutura dos bancos.
+2. entre na pasta ```infra/compose```, no arquivo ```docker-compose.yaml``` terá as informações da criação do banco de dados, tais como:
 
-3. Usaremos o comando para subir o banco de dados e também a interfaceweb, o ```-d``` é para o modo detach do qual executa os e libera o terminal para o usuário.
+- Credenciais de acesso ao banco e porta.
+
+```yaml
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=base_escola
+    ports:
+      - "5432:5432"
+```
+- Informações da interface web usada para auxiliar:
+
+```yaml
+    container_name: pdadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "mack@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin123"
+    ports:
+      - "54321:80"
+```
+
+3. No diretório, rodamos o seguinte comando para subir o banco:
 
 ```
 docker-compose up -d
 ```
 
-4. Faça login no ```pgadmin``` em localhost:54321 e faça login no banco criado apontando para ```postgres:5432```, observer que ```postgres``` é o nome do container criado e ```5432``` é porta do qual ele está exposto. O ```pgadmin``` pedira usuário e senha também para realizar o login no banco, forneça as credenciais e estabeleça o login.
+4. Faça login no ```pgadmin``` em ```localhost:54321``` em seguida faça login no banco criado apontando para ```postgres:5432```, observer que ```postgres``` é o nome do container criado e ```5432``` é a porta do qual ele está exposto. 
+
+O ```pgadmin``` pedira usuário e senha também para realizar o login no banco, forneça as credenciais e estabeleça o login.
 
 5. Execute as querys para construir a estrutura dos bancos:
 
