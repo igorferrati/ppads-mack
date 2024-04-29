@@ -18,6 +18,7 @@ Consiste no desenvolvimento de projeto consiste na criação de um software para
 
 - Node JS - v20 ou superior
 - Npm
+
 [Documentação node:](https://nodejs.org/en/download)
 
 - Angular v16 ou superior
