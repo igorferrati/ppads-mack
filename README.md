@@ -65,7 +65,7 @@ docker-compose up -d
 
 4. Faça login no ```pgadmin``` em ```localhost:54321``` em seguida faça login no banco criado apontando para ```postgres:5432```, observer que ```postgres``` é o nome do container criado e ```5432``` é a porta do qual ele está exposto. 
 
-O ```pgadmin``` pedira usuário e senha também para realizar o login no banco, forneça as credenciais e estabeleça o login.
+- O ```pgadmin``` pedira usuário e senha também para realizar o login no banco, forneça as credenciais e estabeleça o login.
 
 5. Execute as querys para construir a estrutura dos bancos:
 
@@ -121,12 +121,12 @@ go run main.go
 
 8. Navegue até a pasta ```front``` e execute os seguintes comandos:
 
-- Para instalar todas dependÇencias do ```package.json```:
+- Para instalar as dependências do ```package.json```:
 
 ```
 npm install
 ```
-
+#TODO
 - Subindo servidor web:
 
 ```
