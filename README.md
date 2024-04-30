@@ -69,7 +69,7 @@ docker-compose up -d
 
 5. Execute as querys para construir a estrutura dos bancos:
 
-```
+```SQL
 CREATE TABLE alunos (
     id SERIAL PRIMARY KEY,
     nome_aluno VARCHAR(255),
@@ -78,7 +78,7 @@ CREATE TABLE alunos (
 );
 ```
 
-```
+```SQL
 CREATE TABLE professores (
     id SERIAL PRIMARY KEY,
     nome_professor VARCHAR(255),
@@ -86,14 +86,14 @@ CREATE TABLE professores (
 );
 ```
 
-```
+```SQL
 CREATE TABLE materias (
     id SERIAL PRIMARY KEY,
     nome_materia VARCHAR(50)
 );
 ```
 
-```
+```SQL
 CREATE TABLE presencas (
     id SERIAL PRIMARY KEY,
     aluno_id INT REFERENCES alunos(id),
