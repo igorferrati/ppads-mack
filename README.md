@@ -69,7 +69,7 @@ docker-compose up -d
 
 5. Execute as querys para construir a estrutura dos bancos:
 
-```
+```SQL
 CREATE TABLE alunos (
     id SERIAL PRIMARY KEY,
     nome_aluno VARCHAR(255),
@@ -78,7 +78,7 @@ CREATE TABLE alunos (
 );
 ```
 
-```
+```SQL
 CREATE TABLE professores (
     id SERIAL PRIMARY KEY,
     nome_professor VARCHAR(255),
@@ -86,14 +86,14 @@ CREATE TABLE professores (
 );
 ```
 
-```
+```SQL
 CREATE TABLE materias (
     id SERIAL PRIMARY KEY,
     nome_materia VARCHAR(50)
 );
 ```
 
-```
+```SQL
 CREATE TABLE presencas (
     id SERIAL PRIMARY KEY,
     aluno_id INT REFERENCES alunos(id),
@@ -104,7 +104,7 @@ CREATE TABLE presencas (
 );
 ```
 
-6. Após criada a estrutura de tabelas do banco, podemos inserir usuários ficticios.
+6. Após criada a estrutura de tabelas do banco, podemos inserir dados ficticios.
 
 7. Entre na pasta do backend em ```back/api-rest-go``` e execute os seguintes comando para iniciar o servidor go:
 
@@ -126,12 +126,14 @@ go run main.go
 ```
 npm install, ou npm install --force, caso seja necessário.
 ```
-#TODO
+
 - Subindo servidor web:
 
 ```
 ng serve
 ```
 
-9. Pronto você pode acessar o projeto agora localmente em:
+9. Pronto você pode acessar o projeto agora em ```localhost:4200``` por default o ngserve sobe nesta porta.
+
+10. Todas as rotas do front estão apontando para os endpoints descritos no back, solicitando e consumindos os dados da api.
 
