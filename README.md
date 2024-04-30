@@ -104,7 +104,7 @@ CREATE TABLE presencas (
 );
 ```
 
-6. Após criada a estrutura de tabelas do banco, podemos inserir usuários ficticios.
+6. Após criada a estrutura de tabelas do banco, podemos inserir dados ficticios.
 
 7. Entre na pasta do backend em ```back/api-rest-go``` e execute os seguintes comando para iniciar o servidor go:
 
