@@ -126,12 +126,14 @@ go run main.go
 ```
 npm install, ou npm install --force, caso seja necessário.
 ```
-#TODO
+
 - Subindo servidor web:
 
 ```
 ng serve
 ```
 
-9. Pronto você pode acessar o projeto agora localmente em:
+9. Pronto você pode acessar o projeto agora em ```localhost:4200``` por default o ngserve sobe nesta porta.
+
+10. Todas as rotas do front estão apontando para os endpoints descritos no back, solicitando e consumindos os dados da api.
 
