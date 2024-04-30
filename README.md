@@ -124,7 +124,7 @@ go run main.go
 - Para instalar as dependências do ```package.json```:
 
 ```
-npm install
+npm install, ou npm install --force, caso seja necessário.
 ```
 #TODO
 - Subindo servidor web:
