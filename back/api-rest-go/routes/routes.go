@@ -27,7 +27,7 @@ func HandleRequests() {
 	presencas := r.Group("/presencas")
 	{
 		presencas.GET("/:turma", controllers.GetPresencaTurmas)
-		presencas.POST("/chamada", controllers.RegisterPresenca)
+		// presencas.POST("/chamada", controllers.RegisterPresenca)
 	}
 
 	// certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"

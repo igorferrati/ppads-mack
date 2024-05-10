@@ -25,6 +25,7 @@ func AlunosInfo(c *gin.Context) {
 		Responsavel   string `json:"responsavel"`
 		NomeMateria   string `json:"nome_materia"`
 		NomeProfessor string `json:"nome_professor"`
+		Faltas        uint   `json:"faltas"`
 	}
 
 	err := database.DB.Table("alunos").
