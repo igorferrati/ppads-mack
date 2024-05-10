@@ -8,12 +8,14 @@ import (
 	"github.com/igorferrati/ppads-mack/models"
 )
 
+// GetAllAlunos buscar todos alunos no banco de dados
 func GetAllAlunos(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
 	c.JSON(200, alunos)
 }
 
+// AlunosInfo buscar informações combinadas de todos alunos no banco de dados
 func AlunosInfo(c *gin.Context) {
 	//struct anônima
 	var alunos []struct {
@@ -39,6 +41,7 @@ func AlunosInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, alunos)
 }
 
+// GetAlunoByID buscar um aluno por ID no banco de dados
 func GetAlunoByID(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
@@ -53,6 +56,7 @@ func GetAlunoByID(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
+// CreateAluno cria aluno no banco de dados
 func CreateAluno(c *gin.Context) {
 	var aluno models.Aluno
 	if err := c.ShouldBindJSON(&aluno); err != nil {
@@ -64,7 +68,8 @@ func CreateAluno(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
-func EditAluno(c *gin.Context) {
+// UpdateAluno atualiza aluno no banco de dados
+func UpdateAluno(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
 	database.DB.First(&aluno, id)
@@ -79,9 +84,29 @@ func EditAluno(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
+// DeleteAluno deleta aluno no banco de dados
 func DeleteAluno(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
 	database.DB.Delete(&aluno, id)
 	c.JSON(http.StatusOK, gin.H{"data": "Aluno deletado com sucesso"})
+}
+
+// AlunosTurma busca alunos por turmas
+func AlunosTurma(c *gin.Context) {
+	var alunos []models.Aluno
+	serie := c.Params.ByName("serie")
+
+	//alunos com base na série
+	if err := database.DB.Where("turma LIKE ?", serie+"%").Find(&alunos).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
+		return
+	}
+
+	if len(alunos) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Não há alunos nesta série ou série não existe."})
+		return
+	}
+
+	c.JSON(http.StatusOK, alunos)
 }

@@ -17,32 +17,23 @@ func HandleRequests() {
 	{
 		alunos.GET("/", controllers.GetAllAlunos)
 		alunos.GET("/info", controllers.AlunosInfo)
+		alunos.GET("/:id", controllers.GetAlunoByID)
+		alunos.GET("/turma/:serie", controllers.AlunosTurma)
 		alunos.POST("/cria", controllers.CreateAluno)
-		// alunos.GET("/:id", controllers.GetAlunoByID)
-		// alunos.PUT("/:id", controllers.UpdateAluno)
-		// alunos.DELETE("/:id", controllers.DeleteAluno)
+		alunos.PUT("/:id", controllers.UpdateAluno)
+		alunos.DELETE("/:id", controllers.DeleteAluno)
 	}
 
-	// // Rotas para Professores
-	// professores := r.Group("/professores")
-	// {
-	//     // professores.GET("/", controllers.GetAllProfessores)
-	//     // professores.GET("/:id", controllers.GetProfessorByID)
-	//     // professores.POST("/", controllers.CreateProfessor)
-	//     // professores.PUT("/:id", controllers.UpdateProfessor)
-	//     // professores.DELETE("/:id", controllers.DeleteProfessor)
-	// }
+	presencas := r.Group("/presencas")
+	{
+		presencas.GET("/:turma", controllers.GetPresencaTurmas)
+		presencas.POST("/chamada", controllers.RegisterPresenca)
+	}
 
-	// // Rotas para Presenças
-	// presencas := r.Group("/presencas")
-	// {
-	//     // presencas.GET("/", controllers.GetAllPresencas)
-	//     // presencas.GET("/:id", controllers.GetPresencaByID)
-	// }
+	// certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"
+	// keyFile := "/etc/letsencrypt/live/api-escola.ddns.net/privkey.pem"
 
-	certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"
-	keyFile := "/etc/letsencrypt/live/api-escola.ddns.net/privkey.pem"
-
-	// Inicie o servidor Gin com HTTPS
-	r.RunTLS(":8081", certFile, keyFile)
+	// // Inicie o servidor Gin com HTTPS
+	// r.RunTLS(":8081", certFile, keyFile)
+	r.Run(":8081")
 }
