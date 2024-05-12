@@ -1,0 +1,41 @@
+'
+#DNS 
+api-escola2.ddns.net
+
+### ALUNOS ---------------------------------------------------
+#GET
+https://api-escola2.ddns.net:8080/alunos             -> TODOS ALUNOS
+https://api-escola2.ddns.net:8080/alunos/info        -> INFORMACOES MECLADAS DE ALUNOS
+https://api-escola2.ddns.net:8080/alunos/<id>        -> ALUNO POR ID
+
+#POST 
+https://api-escola2.ddns.net:8080/alunos/criar        -> CRIA ALUNO
+{
+    "nome_aluno": "Aluno Nome,
+    "turma": "5A",
+    "responsavel": "Responsavel",
+    "email_responsavel": "email@gmail.com",
+    "faltas": 0
+}
+
+#PUT 
+https://api-escola2.ddns.net:8080/alunos/<id>           -> EDITA ALUNO
+{
+    "nome_aluno": "mudar",
+    "turma": "mudar",
+    "responsavel": "mudar",
+    "email_responsavel": "mudar",
+    "faltas": mudar
+}
+
+### PRESENCA ---------------------------------------------------
+#POST 
+https://api-escola2.ddns.net:8080/presencas/<turma>      -> PRESENÇAS POR TURMAS
+
+#POST 
+https://api-escola2.ddns.net:8080/presencas/chamada      -> REALIZA CHAMADA
+{
+    "aluno_id": 11,
+    "presente": false
+}
+'
