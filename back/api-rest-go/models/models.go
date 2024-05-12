@@ -4,9 +4,11 @@ import "gorm.io/gorm"
 
 type Aluno struct {
 	gorm.Model
-	Nome_aluno  string `json:"nome_aluno"`
-	Turma       string `json:"turma"`
-	Responsavel string `json:"responsavel"`
+	Nome_aluno        string `json:"nome_aluno"`
+	Turma             string `json:"turma"`
+	Responsavel       string `json:"responsavel"`
+	Email_responsavel string `json:"email_responsavel"`
+	Faltas            uint   `json:"faltas"`
 }
 
 type Professor struct {

@@ -104,7 +104,7 @@ CREATE TABLE presencas (
 );
 ```
 
-6. Após criada a estrutura de tabelas do banco, podemos inserir dados ficticios.
+6. Após criada a estrutura de tabelas do banco, podemos inserir dados ficticios, utilize o arquivo ```back/api-rest-g/database/query.sql``` .
 
 7. Entre na pasta do backend em ```back/api-rest-go``` e execute os seguintes comando para iniciar o servidor go:
 
@@ -136,4 +136,3 @@ ng serve
 9. Pronto você pode acessar o projeto agora em ```localhost:4200``` por default o ngserve sobe nesta porta.
 
 10. Todas as rotas do front estão apontando para os endpoints descritos no back, solicitando e consumindos os dados da api.
-
