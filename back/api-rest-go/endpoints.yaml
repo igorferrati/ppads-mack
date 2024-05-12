@@ -9,7 +9,7 @@ https://api-escola2.ddns.net:8080/alunos/info        -> INFORMACOES MECLADAS DE 
 https://api-escola2.ddns.net:8080/alunos/<id>        -> ALUNO POR ID
 
 #POST 
-https://api-escola2.ddns.net:8080/alunos/criar        -> CRIA ALUNO
+https://api-escola2.ddns.net:8080/alunos/cria        -> CRIA ALUNO
 {
     "nome_aluno": "Aluno Nome,
     "turma": "5A",
