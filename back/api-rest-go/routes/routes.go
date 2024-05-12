@@ -35,6 +35,6 @@ func HandleRequests() {
 	keyFile := "/etc/letsencrypt/live/api-escola2.ddns.net/privkey.pem"
 
 	// Inicie o servidor Gin com HTTPS
-	r.RunTLS(":8081", certFile, keyFile)
+	r.RunTLS(":8080", certFile, keyFile)
 	// r.Run(":8081")
 }
