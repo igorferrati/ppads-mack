@@ -142,3 +142,6 @@ DROP TABLE IF EXISTS presencas, materias, alunos, professores ;
 }
 
 -----------------------------------------------------------------------------
+---CRON
+---#EXECUTA GET PARA ENDPOINT DA FUNCAO
+--*/5 * * * * curl -X GET https://api-escola2.ddns.net:8080/alunos/enviaemail >/dev/null 2>&1
