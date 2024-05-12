@@ -12,3 +12,24 @@
     - curl
     - software-properties-common
     - git
+
+- name: Instalação do Go 1.21.10
+  unarchive:
+    src: https://go.dev/dl/go1.21.10.linux-386.tar.gz
+    dest: /usr/local
+    remote_src: yes
+    creates: /usr/local/go
+
+- name: Configurando variáveis de ambiente para o Go
+  lineinfile:
+    dest: /home/projeto/.bashrc
+    line: "{{ item }}"
+    state: present
+  loop:
+    - 'export PATH=$PATH:/usr/local/go/bin'
+    - 'export GOPATH=/home/projeto/go'
+
+- name: Clonando repositório do projeto
+  command: git clone https://github.com/igorferrati/ppads-mack.git
+  args:
+    chdir: /home/projeto

@@ -1,6 +1,6 @@
 variable "gcp_project" {
   type = string
-  default = "projeto-mack-416601"
+  default = "tccproject-423114"
 }
 
 variable "gcp_region" {
