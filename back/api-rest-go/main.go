@@ -22,7 +22,7 @@ func verificaFaltasSistema() {
 		<-time.Tick(intervalo)
 
 		//get no endpoint
-		resp, err := http.Get("https://localhost:8080/alunos/enviaemail")
+		resp, err := http.Get("https://api-escola2.ddns.net:8080/alunos/enviaemail")
 		if err != nil {
 			fmt.Println("Erro ao enviar solicitação GET:", err)
 			continue
