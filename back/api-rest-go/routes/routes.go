@@ -22,18 +22,19 @@ func HandleRequests() {
 		alunos.POST("/cria", controllers.CreateAluno)
 		alunos.PUT("/:id", controllers.UpdateAluno)
 		alunos.DELETE("/:id", controllers.DeleteAluno)
+		alunos.GET("/enviaemail", controllers.AlunosFaltas)
 	}
 
 	presencas := r.Group("/presencas")
 	{
 		presencas.GET("/:turma", controllers.GetPresencaTurmas)
-		// presencas.POST("/chamada", controllers.RegisterPresenca)
+		presencas.POST("/chamada", controllers.RegisterPresenca)
 	}
 
-	// certFile := "/etc/letsencrypt/live/api-escola.ddns.net/cert.pem"
-	// keyFile := "/etc/letsencrypt/live/api-escola.ddns.net/privkey.pem"
+	certFile := "/etc/letsencrypt/live/api-escola2.ddns.net/cert.pem"
+	keyFile := "/etc/letsencrypt/live/api-escola2.ddns.net/privkey.pem"
 
-	// // Inicie o servidor Gin com HTTPS
-	// r.RunTLS(":8081", certFile, keyFile)
-	r.Run(":8081")
+	// Inicie o servidor Gin com HTTPS
+	r.RunTLS(":8081", certFile, keyFile)
+	// r.Run(":8081")
 }
