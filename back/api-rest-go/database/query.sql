@@ -1,3 +1,7 @@
+--- ESTE DOCUMENTO CONTÉM INFORMAÇÕES FICTICIAS PARA DESENVOLVIMENTO DE DADOS INICIAIS DO PROJETO ALÉM ABORDAR A ESTRUTURA DE DADOS E COMANDOS ÚTEIS NO DESENVOLVIMENTO DA API. 
+
+-----------------------------------------------------------------------------
+
 CREATE TABLE alunos (
     id SERIAL PRIMARY KEY,
     nome_aluno VARCHAR(255),
@@ -102,26 +106,39 @@ CREATE TABLE presencas (
     presente BOOLEAN
 );
 
-INSERT INTO presencas (aluno_id, materia_id, professor_id, data, presente) VALUES
-(1, 1, 1, CURRENT_DATE, TRUE),  -- Igor presente em Matemática com Pedro
-(2, 2, 2, CURRENT_DATE, TRUE),  -- Maria presente em História com Maria
-(3, 3, 3, CURRENT_DATE, TRUE),  -- Pedro presente em Português com Carlos
-(4, 4, 4, CURRENT_DATE, FALSE), -- João ausente em Geografia com Laura
-(5, 5, 5, CURRENT_DATE, TRUE),  -- Ana presente em Ciências com Paula
-(6, 6, 6, CURRENT_DATE, TRUE),  -- Lucas presente em Física com Rodrigo
-(7, 7, 7, CURRENT_DATE, FALSE), -- Juliana ausente em Química com Fernanda
-(8, 8, 8, CURRENT_DATE, TRUE),  -- Marcos presente em Inglês com Lucas
-(9, 9, 9, CURRENT_DATE, TRUE),  -- Camila presente em Artes com Tatiane
-(10, 10, 10, CURRENT_DATE, FALSE); -- Felipe ausente em Educação Física com Gustavo
+-- Insere registros para cada aluno em cada matéria com presente = true
+INSERT INTO presencas (aluno_id, materia_id, professor_id, data, presente)
+SELECT 
+    alunos.id AS aluno_id, 
+    materias.id AS materia_id, 
+    professores.id AS professor_id, 
+    CURRENT_DATE AS data,
+    true AS presente
+FROM 
+    alunos, 
+    materias, 
+    professores;
 
---- DELETE
+-----------------------------------------------------------------------------
 
+--- DROPAR TODAS TABELAS
 DROP TABLE IF EXISTS presencas, materias, alunos, professores ;
 
---- ENDPOINTS
---PUT Alunos min
+-----------------------------------------------------------------------------
+---/alunos/criar
 {
-    "nome_aluno": "Igor teste",
+    "nome_aluno": "Igor Ferrati",
     "turma": "5A",
-    "responsavel": "Maria Silva"
+    "responsavel": "Maria Fatima",
+    "email_responsavel": "igorferrati93@gmail.com",
+    "faltas": 0
 }
+
+-----------------------------------------------------------------------------
+---/presencas/chamada/
+{
+    "aluno_id": 11,
+    "presente": false
+}
+
+-----------------------------------------------------------------------------
