@@ -19,30 +19,65 @@ func GetAllAlunos(c *gin.Context) {
 
 // AlunosInfo buscar informações combinadas de todos alunos no banco de dados
 func AlunosInfo(c *gin.Context) {
-	//struct anônima
-	var alunos []struct {
-		ID            uint   `json:"id"`
-		NomeAluno     string `json:"nome_aluno"`
-		Turma         string `json:"turma"`
-		Responsavel   string `json:"responsavel"`
-		NomeMateria   string `json:"nome_materia"`
-		NomeProfessor string `json:"nome_professor"`
-		Faltas        uint   `json:"faltas"`
+	// Struct para representar um aluno com todas as matérias
+	type AlunoWithMaterias struct {
+		ID          uint     `json:"id"`
+		NomeAluno   string   `json:"nome_aluno"`
+		Turma       string   `json:"turma"`
+		Responsavel string   `json:"responsavel"`
+		Faltas      uint     `json:"faltas"`
+		Materias    []string `json:"materias"`
 	}
 
-	err := database.DB.Table("alunos").
-		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, materias.nome_materia, professores.nome_professor, alunos.faltas").
-		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
+	// Variável para armazenar todos os alunos com todas as matérias
+	var alunosComMaterias []AlunoWithMaterias
+
+	// Consulta ao banco de dados para obter todas as matrículas de todas as matérias para todos os alunos
+	rows, err := database.DB.Table("presencas").
+		Select("aluno_id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas, materias.nome_materia").
+		Joins("LEFT JOIN alunos ON presencas.aluno_id = alunos.id").
 		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
-		Joins("LEFT JOIN professores ON presencas.professor_id = professores.id").
-		Group("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, materias.nome_materia, professores.nome_professor, alunos.faltas").
-		Scan(&alunos).Error
+		Rows()
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
 		return
 	}
+	defer rows.Close()
 
-	c.JSON(http.StatusOK, alunos)
+	alunosMap := make(map[uint]*AlunoWithMaterias)
+
+	for rows.Next() {
+		var alunoID uint
+		var alunoNome, alunoTurma, alunoResponsavel string
+		var alunoFaltas uint
+		var materiaNome string
+
+		err := rows.Scan(&alunoID, &alunoNome, &alunoTurma, &alunoResponsavel, &alunoFaltas, &materiaNome)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
+			return
+		}
+
+		if _, ok := alunosMap[alunoID]; !ok {
+			alunosMap[alunoID] = &AlunoWithMaterias{
+				ID:          alunoID,
+				NomeAluno:   alunoNome,
+				Turma:       alunoTurma,
+				Responsavel: alunoResponsavel,
+				Faltas:      alunoFaltas,
+				Materias:    make([]string, 0),
+			}
+		}
+		alunosMap[alunoID].Materias = append(alunosMap[alunoID].Materias, materiaNome)
+	}
+
+	// Convertendo o mapa de alunos de volta para um slice
+	for _, aluno := range alunosMap {
+		alunosComMaterias = append(alunosComMaterias, *aluno)
+	}
+
+	c.JSON(http.StatusOK, alunosComMaterias)
 }
 
 // GetAlunoByID buscar um aluno por ID no banco de dados
