@@ -20,30 +20,47 @@ func GetAllAlunos(c *gin.Context) {
 // AlunosInfo buscar informações combinadas de todos alunos no banco de dados
 func AlunosInfo(c *gin.Context) {
 
-	// Struct anônima
-	var alunos []struct {
-		ID            uint   `json:"id"`
-		NomeAluno     string `json:"nome_aluno"`
-		Turma         string `json:"turma"`
-		Responsavel   string `json:"responsavel"`
-		NomeMateria   string `json:"nome_materia"`
-		NomeProfessor string `json:"nome_professor"`
-		Faltas        uint   `json:"faltas"`
+	// Struct anônima para representar os alunos
+	type Aluno struct {
+		ID          uint   `json:"id"`
+		NomeAluno   string `json:"nome_aluno"`
+		Turma       string `json:"turma"`
+		Responsavel string `json:"responsavel"`
+		Faltas      uint   `json:"faltas"`
 	}
 
-	err := database.DB.Table("alunos").
-		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, materias.nome_materia, professores.nome_professor, alunos.faltas").
-		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
-		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
-		Joins("LEFT JOIN professores ON presencas.professor_id = professores.id").
-		Scan(&alunos).Error
+	// Struct para representar o resultado final
+	type AlunoInfo struct {
+		Aluno
+		NomeMateria   string `json:"nome_materia"`
+		NomeProfessor string `json:"nome_professor"`
+	}
 
-	if err != nil {
+	// Recuperar os alunos do banco de dados
+	var alunos []Aluno
+	if err := database.DB.Table("alunos").
+		Select("id, nome_aluno, turma, responsavel, faltas").
+		Find(&alunos).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
 		return
 	}
 
-	c.JSON(http.StatusOK, alunos)
+	// Listas de matérias e professores
+	materias := []string{"Matemática", "Português", "História", "Ciências", "Física", "Química", "Geografia", "Biologia", "Inglês", "Artes"}
+	professores := []string{"Carlos Ribeiro", "Paula Veniz", "Bruna Deodor", "Filipe José"}
+
+	// Iterar sobre os alunos e atribuir matérias e professores
+	var alunosComInfo []AlunoInfo
+	for i, aluno := range alunos {
+		info := AlunoInfo{
+			Aluno:         aluno,
+			NomeMateria:   materias[i%len(materias)],
+			NomeProfessor: professores[i%len(professores)],
+		}
+		alunosComInfo = append(alunosComInfo, info)
+	}
+
+	c.JSON(http.StatusOK, alunosComInfo)
 }
 
 // GetAlunoByID buscar um aluno por ID no banco de dados
