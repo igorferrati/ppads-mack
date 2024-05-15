@@ -19,35 +19,30 @@ func GetAllAlunos(c *gin.Context) {
 
 // AlunosInfo buscar informações combinadas de todos alunos no banco de dados
 func AlunosInfo(c *gin.Context) {
-	// Struct para representar um aluno com todas as matérias
-	type AlunoWithMaterias struct {
-		ID          uint     `json:"id"`
-		NomeAluno   string   `json:"nome_aluno"`
-		Turma       string   `json:"turma"`
-		Responsavel string   `json:"responsavel"`
-		Faltas      uint     `json:"faltas"`
-		Materias    []string `json:"materias"`
+	//struct anônima
+	var alunos []struct {
+		ID            uint   `json:"id"`
+		NomeAluno     string `json:"nome_aluno"`
+		Turma         string `json:"turma"`
+		Responsavel   string `json:"responsavel"`
+		NomeMateria   string `json:"nome_materia"`
+		NomeProfessor string `json:"nome_professor"`
+		Faltas        uint   `json:"faltas"`
 	}
 
-	// Obtendo todas as matérias
-	var materias []string
-	err := database.DB.Table("materias").Pluck("nome_materia", &materias).Error
+	err := database.DB.Table("alunos").
+		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, materias.nome_materia, professores.nome_professor, alunos.faltas").
+		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
+		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
+		Joins("LEFT JOIN professores ON presencas.professor_id = professores.id").
+		Group("alunos.id").
+		Scan(&alunos).Error
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar matérias"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
 		return
 	}
 
-	// Criando um aluno com todas as matérias associadas
-	aluno := AlunoWithMaterias{
-		ID:          1,
-		NomeAluno:   "",
-		Turma:       "",
-		Responsavel: "",
-		Faltas:      0,
-		Materias:    materias,
-	}
-
-	c.JSON(http.StatusOK, aluno)
+	c.JSON(http.StatusOK, alunos)
 }
 
 // GetAlunoByID buscar um aluno por ID no banco de dados
