@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/igorferrati/ppads-mack/database"
 	"github.com/igorferrati/ppads-mack/models"
-	"github.com/lib/pq"
 	"gopkg.in/gomail.v2"
 )
 
@@ -30,34 +29,25 @@ func AlunosInfo(c *gin.Context) {
 		Materias    []string `json:"materias"`
 	}
 
-	// Variável para armazenar todos os alunos com todas as matérias
-	var alunosComMaterias []AlunoWithMaterias
-
-	// Consulta ao banco de dados para obter todas as matrículas de todas as matérias para todos os alunos
-	rows, err := database.DB.Table("alunos").
-		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas, ARRAY_AGG(materias.nome_materia) AS materias").
-		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
-		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
-		Group("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas").
-		Rows()
-
+	// Obtendo todas as matérias
+	var materias []string
+	err := database.DB.Table("materias").Pluck("nome_materia", &materias).Error
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar matérias"})
 		return
 	}
-	defer rows.Close()
 
-	for rows.Next() {
-		var aluno AlunoWithMaterias
-		err := rows.Scan(&aluno.ID, &aluno.NomeAluno, &aluno.Turma, &aluno.Responsavel, &aluno.Faltas, pq.Array(&aluno.Materias))
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
-			return
-		}
-		alunosComMaterias = append(alunosComMaterias, aluno)
+	// Criando um aluno com todas as matérias associadas
+	aluno := AlunoWithMaterias{
+		ID:          1,
+		NomeAluno:   "",
+		Turma:       "",
+		Responsavel: "",
+		Faltas:      0,
+		Materias:    materias,
 	}
 
-	c.JSON(http.StatusOK, alunosComMaterias)
+	c.JSON(http.StatusOK, aluno)
 }
 
 // GetAlunoByID buscar um aluno por ID no banco de dados
