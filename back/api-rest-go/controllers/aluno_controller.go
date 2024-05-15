@@ -20,35 +20,27 @@ func GetAllAlunos(c *gin.Context) {
 // AlunosInfo buscar informações combinadas de todos alunos no banco de dados
 func AlunosInfo(c *gin.Context) {
 
-	todasMaterias := []string{
-		"Matemática", "História", "Português", "Geografia", "Ciências",
-		"Física", "Química", "Inglês", "Artes", "Educação Física",
-	}
-
-	//struct anônima
+	// Struct anônima
 	var alunos []struct {
-		ID            uint     `json:"id"`
-		NomeAluno     string   `json:"nome_aluno"`
-		Turma         string   `json:"turma"`
-		Responsavel   string   `json:"responsavel"`
-		NomeMateria   []string `json:"nome_materia"`
-		NomeProfessor string   `json:"nome_professor"`
-		Faltas        uint     `json:"faltas"`
+		ID            uint   `json:"id"`
+		NomeAluno     string `json:"nome_aluno"`
+		Turma         string `json:"turma"`
+		Responsavel   string `json:"responsavel"`
+		NomeMateria   string `json:"nome_materia"`
+		NomeProfessor string `json:"nome_professor"`
+		Faltas        uint   `json:"faltas"`
 	}
 
 	err := database.DB.Table("alunos").
-		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, professores.nome_professor, alunos.faltas").
+		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, materias.nome_materia, professores.nome_professor, alunos.faltas").
 		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
+		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
 		Joins("LEFT JOIN professores ON presencas.professor_id = professores.id").
 		Scan(&alunos).Error
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
 		return
-	}
-
-	// Atribuir todas as matérias a cada aluno
-	for i := range alunos {
-		alunos[i].NomeMateria = todasMaterias
 	}
 
 	c.JSON(http.StatusOK, alunos)
