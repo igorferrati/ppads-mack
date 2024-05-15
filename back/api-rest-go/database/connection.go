@@ -22,4 +22,5 @@ func ConectaDB() {
 	}
 	DB.AutoMigrate(&models.Aluno{})
 	DB.AutoMigrate(&models.Presenca{})
+	DB.AutoMigrate(&models.Materia{})
 }
