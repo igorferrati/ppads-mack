@@ -36,6 +36,7 @@ func AlunosInfo(c *gin.Context) {
 		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
 		Joins("LEFT JOIN professores ON presencas.professor_id = professores.id").
 		Group("alunos.id").
+		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, (SELECT nome_materia FROM materias WHERE presencas.materia_id = materias.id LIMIT 1) AS nome_materia, professores.nome_professor, alunos.faltas").
 		Scan(&alunos).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
