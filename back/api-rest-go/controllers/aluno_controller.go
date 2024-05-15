@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/igorferrati/ppads-mack/database"
 	"github.com/igorferrati/ppads-mack/models"
+	"github.com/lib/pq"
 	"gopkg.in/gomail.v2"
 )
 
@@ -33,10 +34,11 @@ func AlunosInfo(c *gin.Context) {
 	var alunosComMaterias []AlunoWithMaterias
 
 	// Consulta ao banco de dados para obter todas as matrículas de todas as matérias para todos os alunos
-	rows, err := database.DB.Table("presencas").
-		Select("aluno_id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas, materias.nome_materia").
-		Joins("LEFT JOIN alunos ON presencas.aluno_id = alunos.id").
+	rows, err := database.DB.Table("alunos").
+		Select("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas, ARRAY_AGG(materias.nome_materia) AS materias").
+		Joins("LEFT JOIN presencas ON alunos.id = presencas.aluno_id").
 		Joins("LEFT JOIN materias ON presencas.materia_id = materias.id").
+		Group("alunos.id, alunos.nome_aluno, alunos.turma, alunos.responsavel, alunos.faltas").
 		Rows()
 
 	if err != nil {
@@ -45,36 +47,14 @@ func AlunosInfo(c *gin.Context) {
 	}
 	defer rows.Close()
 
-	alunosMap := make(map[uint]*AlunoWithMaterias)
-
 	for rows.Next() {
-		var alunoID uint
-		var alunoNome, alunoTurma, alunoResponsavel string
-		var alunoFaltas uint
-		var materiaNome string
-
-		err := rows.Scan(&alunoID, &alunoNome, &alunoTurma, &alunoResponsavel, &alunoFaltas, &materiaNome)
+		var aluno AlunoWithMaterias
+		err := rows.Scan(&aluno.ID, &aluno.NomeAluno, &aluno.Turma, &aluno.Responsavel, &aluno.Faltas, pq.Array(&aluno.Materias))
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar alunos"})
 			return
 		}
-
-		if _, ok := alunosMap[alunoID]; !ok {
-			alunosMap[alunoID] = &AlunoWithMaterias{
-				ID:          alunoID,
-				NomeAluno:   alunoNome,
-				Turma:       alunoTurma,
-				Responsavel: alunoResponsavel,
-				Faltas:      alunoFaltas,
-				Materias:    make([]string, 0),
-			}
-		}
-		alunosMap[alunoID].Materias = append(alunosMap[alunoID].Materias, materiaNome)
-	}
-
-	// Convertendo o mapa de alunos de volta para um slice
-	for _, aluno := range alunosMap {
-		alunosComMaterias = append(alunosComMaterias, *aluno)
+		alunosComMaterias = append(alunosComMaterias, aluno)
 	}
 
 	c.JSON(http.StatusOK, alunosComMaterias)
